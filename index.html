@@ -7,10 +7,28 @@
   <title>Pomodoro Timer</title>
 </head>
 <body>
-  <div class="timer-container">
-    <div id="timer">25:00</div>
-    <button id="startBtn" onclick="startTimer()">Start</button>
-    <button id="resetBtn" onclick="resetTimer()">Reset</button>
+  <div class="container">
+    <button onclick="showTimer('timer1')">Timer</button>
+    <button onclick="showTimer('timer2')">Short Break</button>
+    <button onclick="showTimer('timer3')">Long Break</button>
+
+    <div class="timer-container">
+        <div id="timer1" class="timer">25:00</div>
+        <button id="controlBtn1" onclick="toggleTimer('timer1', 'controlBtn1')">Start</button>
+        <button onclick="resetTimer('timer1', 'controlBtn1')">Reset</button>
+    </div>
+
+    <div class="timer-container" style="display: none;">
+        <div id="timer2" class="timer">05:00</div>
+        <button id="controlBtn2" onclick="toggleTimer('timer2', 'controlBtn2')">Start</button>
+        <button onclick="resetTimer('timer2', 'controlBtn2')">Reset</button>
+    </div>
+
+    <div class="timer-container" style="display: none;">
+        <div id="timer3" class="timer">15:00</div>
+        <button id="controlBtn3" onclick="toggleTimer('timer3', 'controlBtn3')">Start</button>
+        <button onclick="resetTimer('timer3', 'controlBtn3')">Reset</button>
+    </div>
   </div>
 
   <script src="script.js"></script>

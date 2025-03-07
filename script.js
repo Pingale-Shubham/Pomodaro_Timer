@@ -1,54 +1,68 @@
-let timer;
-let minutes = 25;
-let seconds = 0;
-let isRunning = false;
-const beep = new Audio("https://www.soundjay.com/button/beep-07.wav"); // Beep sound URL
+let timers = {}; // Store intervals
+let timeLeft = {}; // Store remaining time for pause/resume
 
-function startTimer() {
-  const startBtn = document.getElementById("startBtn");
-
-  if (!isRunning) {
-    isRunning = true;
-    timer = setInterval(updateTimer, 1000);
-    startBtn.textContent = "Pause";
-  } else {
-    isRunning = false;
-    clearInterval(timer);
-    startBtn.textContent = "Resume";
-  }
-}
-
-function resetTimer() {
-  clearInterval(timer);
-  isRunning = false;
-  minutes = 25;
-  seconds = 0;
-  updateDisplay();
-  document.getElementById("startBtn").textContent = "Start";
-}
-
-function updateTimer() {
-  if (minutes === 0 && seconds === 0) {
-    clearInterval(timer);
-    isRunning = false;
-    document.getElementById("startBtn").textContent = "Start";
-    beep.play(); // Play sound when timer finishes
-    alert("Time's up! Take a break."); // Notify user
-  } else {
-    if (seconds === 0) {
-      minutes--;
-      seconds = 59;
+function toggleTimer(timerId, buttonId) {
+    let button = document.getElementById(buttonId);
+    
+    if (timers[timerId]) {
+        stopTimer(timerId, button); // If running, stop
     } else {
-      seconds--;
+        startTimer(timerId, button); // If stopped, start
     }
-    updateDisplay();
-  }
 }
 
-function updateDisplay() {
-  document.getElementById("timer").textContent = 
-    `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+function startTimer(timerId, button) {
+    let timerElement = document.getElementById(timerId);
+    let timeArray = timerElement.innerText.split(":");
+    let minutes = parseInt(timeArray[0]);
+    let seconds = parseInt(timeArray[1]);
+
+    if (timeLeft[timerId]) {
+        minutes = timeLeft[timerId].minutes;
+        seconds = timeLeft[timerId].seconds;
+    }
+
+    timers[timerId] = setInterval(() => {
+        if (minutes === 0 && seconds === 0) {
+            clearInterval(timers[timerId]);
+            delete timers[timerId];
+            button.innerText = "Start"; // Reset button text
+        } else {
+            if (seconds === 0) {
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            timerElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timeLeft[timerId] = { minutes, seconds };
+        }
+    }, 1000);
+
+    button.innerText = "Stop"; // Change button to Stop
 }
 
-// Initialize timer display
-updateDisplay();
+function stopTimer(timerId, button) {
+    clearInterval(timers[timerId]);
+    delete timers[timerId];
+    button.innerText = "Resume"; // Change button to Resume
+}
+
+function resetTimer(timerId, buttonId) {
+    clearInterval(timers[timerId]);
+    delete timers[timerId];
+
+    let defaultTime = timerId === "timer1" ? "25:00" : timerId === "timer2" ? "05:00" : "15:00";
+    document.getElementById(timerId).innerText = defaultTime;
+    delete timeLeft[timerId];
+
+    let button = document.getElementById(buttonId);
+    button.innerText = "Start"; // Reset button text
+}
+
+function showTimer(timerId) {
+    document.querySelectorAll(".timer-container").forEach(timer => {
+        timer.style.display = "none";
+    });
+    document.getElementById(timerId).parentElement.style.display = "block";
+}
