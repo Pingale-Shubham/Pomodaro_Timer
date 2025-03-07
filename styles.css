@@ -34,7 +34,7 @@ body {
 /* Timer Styles */
 .timer {
   font-size: 3em;
-  margin: 20px 0; /* Adjusted margin for better spacing */
+  margin: 16%; /* Adjusted margin for better spacing */
   color: #333;
   font-weight: bold;
   animation: pulse 1s infinite alternate;
@@ -55,16 +55,10 @@ body {
 }
 
 /* Buttons Styling */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* Spacing between buttons */
-  flex-wrap: wrap; /* Ensures buttons wrap in smaller screens */
-}
 
 button {
   font-size: 1.2em;
-  padding: 10px 20px;
+  padding: 10px 40px;
   cursor: pointer;
   background-color: #1c03fd;
   color: #fff;
@@ -113,7 +107,7 @@ button:active {
   
 
   button {
-    font-size: 18px;
+    font-size: 12px;
     padding: 10px 20px;
     cursor: pointer;
     background-color: #1c03fd;
