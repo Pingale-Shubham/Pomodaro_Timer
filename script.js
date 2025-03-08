@@ -27,7 +27,13 @@ function startTimer(timerId, button) {
             clearInterval(timers[timerId]);
             delete timers[timerId];
             button.innerText = "Start"; // Reset button text
-        } else {
+
+            // ✅ Play beep sound instantly (within 2 seconds)
+            setTimeout(() => {
+                playBeepSound();
+            }, 100); // Now it will play sound within 100ms (~0.1 seconds)
+        } 
+        else {
             if (seconds === 0) {
                 minutes--;
                 seconds = 59;
@@ -65,4 +71,10 @@ function showTimer(timerId) {
         timer.style.display = "none";
     });
     document.getElementById(timerId).parentElement.style.display = "block";
+}
+
+// ✅ Function to play beep sound when the timer ends
+function playBeepSound() {
+    let beep = new Audio('./roja_flute.mp3');
+    beep.play();
 }
